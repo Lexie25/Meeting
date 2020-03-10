@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.br.Meeting.DTO.MeetingDTO;
 import com.br.Meeting.Service.MeetingService;
 import com.br.Meeting.model.Meeting;
 
@@ -48,10 +49,10 @@ public class MeetingController {
 	
 	
 	@PostMapping
-	public ResponseEntity<?> saveMeeting(@Valid @RequestBody Meeting meeting) {
+	public ResponseEntity<?> saveMeeting(@Valid @RequestBody MeetingDTO meetingDto) {
 		try {
-			meetingService.saveMeeting(meeting);
-			return ResponseEntity.status(HttpStatus.CREATED).body(meeting);	
+			meetingService.saveMeeting(meetingDto);
+			return ResponseEntity.status(HttpStatus.CREATED).body(meetingDto);	
 		}
 		catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();

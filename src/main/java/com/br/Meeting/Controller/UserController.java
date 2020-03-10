@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.br.Meeting.DTO.UserDTO;
 import com.br.Meeting.Service.UserService;
 import com.br.Meeting.model.User;
 
@@ -35,7 +36,7 @@ public class UserController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<?> saveUser(@Valid @RequestBody User user) {
+	public ResponseEntity<?> saveUser(@Valid @RequestBody UserDTO user) {
 		try {
 			userService.saveUser(user);
 			return ResponseEntity.status(HttpStatus.CREATED).body(user);	

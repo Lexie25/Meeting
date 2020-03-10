@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
+import com.br.Meeting.DTO.RoomDto;
 import com.br.Meeting.Repositories.RoomRepository;
 import com.br.Meeting.exceptions.MessageNotFound;
 import com.br.Meeting.model.Room;
@@ -25,9 +26,15 @@ public class RoomService {
 		return roomRepository.findById(id).get();	
 	}
 	
-	public void saveRoom(Room room) {
-		// 	TODO - validacao da salas
-		roomRepository.save(room);
+	public void saveRoom(RoomDto roomDto) {
+		Room entity = convertToEntity(roomDto);
+		roomRepository.save(entity);
+	}
+	
+	private Room convertToEntity(RoomDto roomDto) {
+		Room room = new Room();
+		room.setDescription(roomDto.getDescription());
+		return room;
 	}
 	
 	public void updateRoom(long id, Room room) {

@@ -3,28 +3,31 @@ package com.br.Meeting.model;
 import java.io.Serializable;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import com.br.Meeting.DTO.Status;
+
 @Entity
 public class Meeting implements Serializable {
 	private final static long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 
 	private Long idMeeting;
 	private String date;
-	private String  startTime;
+	private String startTime;
 	private String endTime;
 //	private String room;
 	private String title;
 	private String host;
 	
-	public enum Status{
-		CHECKED,END,CANCELED;
-	}
+	@Enumerated(EnumType.ORDINAL)
+	private Status status;
 
 	public Meeting() {
 	}
@@ -36,6 +39,14 @@ public class Meeting implements Serializable {
 		this.endTime = endTime;
 		this.title = title;
 		this.host = host;
+	}
+
+	public Status getStatus() {
+		return status;
+	}
+
+	public void setStatus(Status status) {
+		this.status = status;
 	}
 
 	public Long getIdMeeting() {
@@ -91,5 +102,5 @@ public class Meeting implements Serializable {
 		return "Meeting [idMeeting=" + idMeeting + ", date=" + date + ", startTime=" + startTime + ", endTime="
 				+ endTime + ", title=" + title + ", host=" + host + "]";
 	}
-	
+
 }

@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.br.Meeting.DTO.RoomDto;
 import com.br.Meeting.Service.RoomService;
 import com.br.Meeting.model.Room;
 
@@ -46,7 +48,7 @@ public class RoomController {
 	}	
 	
 	@PostMapping
-	public ResponseEntity<?> Save(@Valid @RequestBody Room room) {
+	public ResponseEntity<?> Save(@Valid @RequestBody RoomDto room) {
 		try {
 			roomService.saveRoom(room);
 			return ResponseEntity.status(HttpStatus.CREATED).body(room);	

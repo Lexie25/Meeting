@@ -14,7 +14,7 @@ public class MeetingDTO implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private Date date;
+	private String date;
 	
 	@NotEmpty(message = "mandatory start time field")
 	private String  startTime;
@@ -27,17 +27,14 @@ public class MeetingDTO implements Serializable {
 	
 	@NotEmpty(message = "mandatory host field")
 	private String host;
-	
-	public enum Status{
-		CHECKED,END,CANCELED;
-	}
+
+	private Status status;
 
 	public MeetingDTO(Long id, Date date, @NotEmpty(message = "mandatory start time field") String startTime,
 			@NotEmpty(message = "mandatory end time field") String endTime,
 			@NotEmpty(message = "mandatory title field") String title,
 			@NotEmpty(message = "mandatory host field") String host) {
 		this.id = id;
-		this.date = date;
 		this.startTime = startTime;
 		this.endTime = endTime;
 		this.title = title;
@@ -55,11 +52,11 @@ public class MeetingDTO implements Serializable {
 		this.id = id;
 	}
 
-	public Date getDate() {
+	public String getDate() {
 		return date;
 	}
 
-	public void setDate(Date date) {
+	public void setDate(String date) {
 		this.date = date;
 	}
 
@@ -70,7 +67,7 @@ public class MeetingDTO implements Serializable {
 	public void setStartTime(String startTime) {
 		this.startTime = startTime;
 	}
-
+	
 	public String getEndTime() {
 		return endTime;
 	}
@@ -79,6 +76,13 @@ public class MeetingDTO implements Serializable {
 		this.endTime = endTime;
 	}
 
+	public Status getStatus() {
+		return status;
+	}
+	
+	public void setStatus(Status status) {
+		this.status = status;
+	}
 	public String getTitle() {
 		return title;
 	}
