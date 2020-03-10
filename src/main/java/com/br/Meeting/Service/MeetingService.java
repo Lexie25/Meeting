@@ -31,7 +31,7 @@ public class MeetingService {
 			throw new MessageNotFound("Não há mensagens com esse id");
 		}
 
-		meeting.getIdMeeting();
+		meeting.setIdMeeting(id);
 		meetingRepository.save(meeting);
 	}
 
