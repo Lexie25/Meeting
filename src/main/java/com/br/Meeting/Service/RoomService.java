@@ -26,6 +26,7 @@ public class RoomService {
 	}
 	
 	public void saveRoom(Room room) {
+		// 	TODO - validacao da salas
 		roomRepository.save(room);
 	}
 	

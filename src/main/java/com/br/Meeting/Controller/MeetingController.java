@@ -35,6 +35,17 @@ public class MeetingController {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		}
 	}
+	@GetMapping("/{id}")
+	public ResponseEntity<?>  findAll () {
+		try {
+			Iterable<Meeting> meeting = meetingService.getMeeting();
+			return ResponseEntity.ok(meeting);
+		}
+		catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+		}
+	}
+	
 	
 	@PostMapping
 	public ResponseEntity<?> saveMeeting(@Valid @RequestBody Meeting meeting) {
