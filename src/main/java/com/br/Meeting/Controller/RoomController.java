@@ -31,7 +31,19 @@ public class RoomController {
 		catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		}
+	
 	}
+	
+	@GetMapping
+	public ResponseEntity<?> findAllRoom() {
+		try {
+			Iterable<Room> room = roomService.getRoom();
+			return ResponseEntity.ok(room);
+		}
+		catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+		}
+	}	
 	
 	@PostMapping
 	public ResponseEntity<?> Save(@Valid @RequestBody Room room) {
