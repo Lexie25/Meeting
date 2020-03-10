@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class Room implements Serializable {
@@ -15,7 +16,11 @@ public class Room implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long idRoom;
 	private String description;
+	
+	@NotNull
 	private short numberRoom;
+	
+	@NotNull
 	private short floor;
 	
 	

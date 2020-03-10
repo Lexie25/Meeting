@@ -32,7 +32,7 @@ public class RoomController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<?> criarMensagem(@Valid @RequestBody Room room) {
+	public ResponseEntity<?> Save(@Valid @RequestBody Room room) {
 		try {
 			roomService.saveRoom(room);
 			return ResponseEntity.status(HttpStatus.CREATED).body(room);	
@@ -43,14 +43,14 @@ public class RoomController {
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<?> atualizarMensagem(@PathVariable long id,
+	public ResponseEntity<?> update(@PathVariable long id,
 												@Valid @RequestBody Room room) {
 		roomService.updateRoom(id, room);
 		return ResponseEntity.ok(room);
 	}
 	
 	@DeleteMapping("/{id}")
-	public ResponseEntity<?> apagarMensagem(@PathVariable long id) {
+	public ResponseEntity<?> delete(@PathVariable long id) {
 		roomService.deleteRoom(id);
 		return ResponseEntity.ok().build();
 	}

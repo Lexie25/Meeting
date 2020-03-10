@@ -6,6 +6,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+
+import org.hibernate.validator.constraints.br.CPF;
 
 @Entity
 public class User implements Serializable {
@@ -14,10 +18,20 @@ public class User implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long idUser;
+	
+	@NotBlank
 	private String name;
+	
+	@NotBlank
 	private String password;
+
+	@CPF
 	private String cpf;
+	
+	@NotBlank
 	private String nick;
+	
+	@Email
 	private String email;
 	
 	public User() {
