@@ -46,7 +46,7 @@ public class UserService {
 	public void updateUser(long id, User user) {
 		Optional<User> optionalUser = userRepository.findById(id);
 		if (!optionalUser.isPresent()) {
-			throw new MessageNotFound("Não há mensagens com esse id");
+			throw new MessageNotFound("Not found");
 		}
 		
 		user.setId(id);
@@ -58,7 +58,7 @@ public class UserService {
 			userRepository.deleteById(id);	
 		}
 		catch(EmptyResultDataAccessException e) {
-			throw new MessageNotFound("Não há mensagens com esse id");
+			throw new MessageNotFound("Not found");
 		}
 	}
 	

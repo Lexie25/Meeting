@@ -45,7 +45,7 @@ public class MeetingService {
 	public void updateMeeting(long id, Meeting meeting) {
 		Optional<Meeting> optionalMensagem = meetingRepository.findById(id);
 		if (!optionalMensagem.isPresent()) {
-			throw new MessageNotFound("Não há mensagens com esse id");
+			throw new MessageNotFound("Not found");
 		}
 
 		meeting.setIdMeeting(id);
@@ -56,7 +56,7 @@ public class MeetingService {
 		try {
 			meetingRepository.deleteById(id);
 		} catch (EmptyResultDataAccessException e) {
-			throw new MessageNotFound("Não há mensagens com esse id");
+			throw new MessageNotFound("Not found");
 		}
 	}
 
