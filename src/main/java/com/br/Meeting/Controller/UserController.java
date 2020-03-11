@@ -26,7 +26,7 @@ public class UserController {
 
 	@Autowired
 	private UserService userService;
-		
+
 
 	@CrossOrigin(origins = "", allowedHeaders = "", methods = {RequestMethod.DELETE,RequestMethod.GET, RequestMethod.OPTIONS, RequestMethod.POST})
 	@GetMapping("/{id}")
@@ -39,10 +39,10 @@ public class UserController {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		}
 	}
-	
+
 	@CrossOrigin(origins = "", allowedHeaders = "", methods = {RequestMethod.DELETE,RequestMethod.GET, RequestMethod.OPTIONS, RequestMethod.POST})
 	@PostMapping
-	public ResponseEntity<?> saveUser(@Valid @RequestBody UserDTO user) {
+	public ResponseEntity<?> saveUser(@RequestBody UserDTO user) {
 		try {
 			userService.saveUser(user);
 			return ResponseEntity.status(HttpStatus.CREATED).body(user);	
@@ -51,11 +51,11 @@ public class UserController {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 		}
 	}
-	
+
 	@CrossOrigin(origins = "", allowedHeaders = "", methods = {RequestMethod.DELETE,RequestMethod.GET, RequestMethod.OPTIONS, RequestMethod.POST})
 	@PutMapping("/{id}")
 	public ResponseEntity<?> updateUser(@PathVariable long id,
-												@Valid @RequestBody User user) {
+			@Valid @RequestBody User user) {
 		userService.updateUser(id, user);
 		return ResponseEntity.ok(user);
 	}

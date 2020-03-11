@@ -16,21 +16,15 @@ public class UserDTO implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	@NotEmpty(message = "mandatory name field")
+ 
 	private String name;
 	
-	@NotEmpty(message = "mandatory password field")
 	private String password;
 
-	@CPF
-	@NotEmpty(message = "mandatory CPF field")
 	private String cpf;
 	
-	@NotEmpty(message = "mandatory nick field")
 	private String nick;
 	
-	@Email
-	@NotEmpty(message = "mandatory E-mal field")
 	private String email;
 
 	public UserDTO(Long id, @NotEmpty(message = "mandatory name field") String name,
