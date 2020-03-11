@@ -5,6 +5,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.br.Meeting.DTO.MeetingDTO;
@@ -26,6 +28,7 @@ public class MeetingController {
 	private MeetingService meetingService;
 	
 
+	@CrossOrigin(origins = "", allowedHeaders = "", methods = {RequestMethod.DELETE,RequestMethod.GET, RequestMethod.OPTIONS, RequestMethod.POST})
 	@GetMapping("/{id}")
 	public ResponseEntity<?> getMeeting(@PathVariable long id) {
 		try {
@@ -36,6 +39,7 @@ public class MeetingController {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		}
 	}
+	@CrossOrigin(origins = "", allowedHeaders = "", methods = {RequestMethod.DELETE,RequestMethod.GET, RequestMethod.OPTIONS, RequestMethod.POST})
 	@GetMapping
 	public ResponseEntity<?>  findAll () {
 		try {
@@ -47,7 +51,7 @@ public class MeetingController {
 		}
 	}
 	
-	
+	@CrossOrigin(origins = "", allowedHeaders = "", methods = {RequestMethod.DELETE,RequestMethod.GET, RequestMethod.OPTIONS, RequestMethod.POST})
 	@PostMapping
 	public ResponseEntity<?> saveMeeting(@Valid @RequestBody MeetingDTO meetingDto) {
 		try {
@@ -58,19 +62,17 @@ public class MeetingController {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 		}
 	}
-	
+	@CrossOrigin(origins = "", allowedHeaders = "", methods = {RequestMethod.DELETE,RequestMethod.GET, RequestMethod.OPTIONS, RequestMethod.POST})
 	@PutMapping("/{id}")
 	public ResponseEntity<?> updateMeeting(@PathVariable long id,
 												@Valid @RequestBody Meeting meeting) {
 		meetingService.updateMeeting(id, meeting);
 		return ResponseEntity.ok(meeting);
 	}
-	
+	@CrossOrigin(origins = "", allowedHeaders = "", methods = {RequestMethod.DELETE,RequestMethod.GET, RequestMethod.OPTIONS, RequestMethod.POST})
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> deleteMeeting(@PathVariable long id) {
 		meetingService.deleteMeeting(id);
 		return ResponseEntity.ok().build();
 	}
-	
-	
 }

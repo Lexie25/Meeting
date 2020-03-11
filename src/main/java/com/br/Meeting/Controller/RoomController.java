@@ -4,6 +4,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.br.Meeting.DTO.RoomDto;
@@ -23,7 +25,8 @@ public class RoomController {
 
 	@Autowired
 	private RoomService roomService;
-	
+
+	@CrossOrigin(origins = "", allowedHeaders = "", methods = {RequestMethod.DELETE,RequestMethod.GET, RequestMethod.OPTIONS, RequestMethod.POST})
 	@GetMapping("/{id}")
 	public ResponseEntity<?> getRoom(@PathVariable long id) {
 		try {
@@ -33,9 +36,9 @@ public class RoomController {
 		catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		}
-	
+
 	}
-	
+	@CrossOrigin(origins = "", allowedHeaders = "", methods = {RequestMethod.DELETE,RequestMethod.GET, RequestMethod.OPTIONS, RequestMethod.POST})
 	@GetMapping
 	public ResponseEntity<?> findAllRoom() {
 		try {
@@ -46,7 +49,7 @@ public class RoomController {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		}
 	}	
-	
+	@CrossOrigin(origins = "", allowedHeaders = "", methods = {RequestMethod.DELETE,RequestMethod.GET, RequestMethod.OPTIONS, RequestMethod.POST})
 	@PostMapping
 	public ResponseEntity<?> Save(@Valid @RequestBody RoomDto room) {
 		try {
@@ -57,18 +60,18 @@ public class RoomController {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 		}
 	}
-	
+	@CrossOrigin(origins = "", allowedHeaders = "", methods = {RequestMethod.DELETE,RequestMethod.GET, RequestMethod.OPTIONS, RequestMethod.POST})
 	@PutMapping("/{id}")
 	public ResponseEntity<?> update(@PathVariable long id,
-												@Valid @RequestBody Room room) {
+			@Valid @RequestBody Room room) {
 		roomService.updateRoom(id, room);
 		return ResponseEntity.ok(room);
 	}
-	
+	@CrossOrigin(origins = "", allowedHeaders = "", methods = {RequestMethod.DELETE,RequestMethod.GET, RequestMethod.OPTIONS, RequestMethod.POST})
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> delete(@PathVariable long id) {
 		roomService.deleteRoom(id);
 		return ResponseEntity.ok().build();
 	}
-	
+
 }
