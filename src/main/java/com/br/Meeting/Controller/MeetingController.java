@@ -20,6 +20,10 @@ import com.br.Meeting.DTO.MeetingDTO;
 import com.br.Meeting.Service.MeetingService;
 import com.br.Meeting.model.Meeting;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
+@Api(value="Api rest meeting")
 @RestController
 @RequestMapping("meeting")
 public class MeetingController {
@@ -28,6 +32,7 @@ public class MeetingController {
 	private MeetingService meetingService;
 	
 
+	@ApiOperation(value="get a meeting by Id")
 	@CrossOrigin(origins = "", allowedHeaders = "", methods = {RequestMethod.DELETE,RequestMethod.GET, RequestMethod.OPTIONS, RequestMethod.POST})
 	@GetMapping("/{id}")
 	public ResponseEntity<?> getMeeting(@PathVariable long id) {
@@ -39,6 +44,7 @@ public class MeetingController {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		}
 	}
+	@ApiOperation(value="take all meeting")
 	@CrossOrigin(origins = "", allowedHeaders = "", methods = {RequestMethod.DELETE,RequestMethod.GET, RequestMethod.OPTIONS, RequestMethod.POST})
 	@GetMapping
 	public ResponseEntity<?>  findAll () {
@@ -51,6 +57,7 @@ public class MeetingController {
 		}
 	}
 	
+	@ApiOperation(value="add a meeting")
 	@CrossOrigin(origins = "", allowedHeaders = "", methods = {RequestMethod.DELETE,RequestMethod.GET, RequestMethod.OPTIONS, RequestMethod.POST})
 	@PostMapping
 	public ResponseEntity<?> saveMeeting(@Valid @RequestBody MeetingDTO meetingDto) {
@@ -62,6 +69,8 @@ public class MeetingController {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 		}
 	}
+	
+	@ApiOperation(value="update a meeting")
 	@CrossOrigin(origins = "", allowedHeaders = "", methods = {RequestMethod.DELETE,RequestMethod.GET, RequestMethod.OPTIONS, RequestMethod.POST})
 	@PutMapping("/{id}")
 	public ResponseEntity<?> updateMeeting(@PathVariable long id,
@@ -69,6 +78,8 @@ public class MeetingController {
 		meetingService.updateMeeting(id, meeting);
 		return ResponseEntity.ok(meeting);
 	}
+	
+	@ApiOperation(value="delete a meeting")
 	@CrossOrigin(origins = "", allowedHeaders = "", methods = {RequestMethod.DELETE,RequestMethod.GET, RequestMethod.OPTIONS, RequestMethod.POST})
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> deleteMeeting(@PathVariable long id) {

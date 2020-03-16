@@ -2,6 +2,7 @@ package com.br.Meeting.Service;
 
 import java.util.Optional;
 
+import javax.persistence.Id;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,14 +44,18 @@ public class UserService {
 		
 		return user;
 	}
-	public void updateUser(long id, User user) {
-		Optional<User> optionalUser = userRepository.findById(id);
-		if (!optionalUser.isPresent()) {
-			throw new MessageNotFound("Not found");
-		}
+	public User updateUser( User user) {
+		Optional<User> optionalUser = userRepository.findById(user.getId());
 		
-		user.setId(id);
-		userRepository.save(user);
+		if (optionalUser.isPresent()) {
+			User userEncontrada = optionalUser.get();
+			user.setName(user.getName());
+			userRepository.save(user);
+		
+			return user;
+		}
+		return null;
+		
 	}
 	
 	public void deleteUser(long id) {

@@ -19,6 +19,10 @@ import com.br.Meeting.DTO.RoomDto;
 import com.br.Meeting.Service.RoomService;
 import com.br.Meeting.model.Room;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
+@Api(value="Api rest room")
 @RestController
 @RequestMapping("room")
 public class RoomController {
@@ -26,6 +30,7 @@ public class RoomController {
 	@Autowired
 	private RoomService roomService;
 
+	@ApiOperation(value="get a room by Id")
 	@CrossOrigin(origins = "", allowedHeaders = "", methods = {RequestMethod.DELETE,RequestMethod.GET, RequestMethod.OPTIONS, RequestMethod.POST})
 	@GetMapping("/{id}")
 	public ResponseEntity<?> getRoom(@PathVariable long id) {
@@ -38,6 +43,9 @@ public class RoomController {
 		}
 
 	}
+	
+
+	@ApiOperation(value="take all rooms")
 	@CrossOrigin(origins = "", allowedHeaders = "", methods = {RequestMethod.DELETE,RequestMethod.GET, RequestMethod.OPTIONS, RequestMethod.POST})
 	@GetMapping
 	public ResponseEntity<?> findAllRoom() {
@@ -49,6 +57,8 @@ public class RoomController {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		}
 	}	
+
+	@ApiOperation(value="add a room")
 	@CrossOrigin(origins = "", allowedHeaders = "", methods = {RequestMethod.DELETE,RequestMethod.GET, RequestMethod.OPTIONS, RequestMethod.POST})
 	@PostMapping
 	public ResponseEntity<?> Save(@Valid @RequestBody RoomDto room) {
@@ -60,6 +70,7 @@ public class RoomController {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 		}
 	}
+	@ApiOperation(value="update a room")
 	@CrossOrigin(origins = "", allowedHeaders = "", methods = {RequestMethod.DELETE,RequestMethod.GET, RequestMethod.OPTIONS, RequestMethod.POST})
 	@PutMapping("/{id}")
 	public ResponseEntity<?> update(@PathVariable long id,
@@ -67,6 +78,8 @@ public class RoomController {
 		roomService.updateRoom(id, room);
 		return ResponseEntity.ok(room);
 	}
+	
+	@ApiOperation(value="delete a room")
 	@CrossOrigin(origins = "", allowedHeaders = "", methods = {RequestMethod.DELETE,RequestMethod.GET, RequestMethod.OPTIONS, RequestMethod.POST})
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> delete(@PathVariable long id) {

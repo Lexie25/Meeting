@@ -19,7 +19,7 @@ public class User implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long idUser;
+	private Long id;
 	
 	@NotBlank
 	private String name;
@@ -39,7 +39,7 @@ public class User implements Serializable {
 	public User() {
 	}
 	public User(Long id, String name, String password, String cpf, String nick, String email) {
-		this.idUser = id;
+		this.id = id;
 		this.name = name;
 		this.password = password;
 		this.cpf = cpf;
@@ -47,10 +47,10 @@ public class User implements Serializable {
 		this.email = email;
 	}
 	public Long getId() {
-		return idUser;
+		return id;
 	}
 	public void setId(Long id) {
-		this.idUser = id;
+		this.id = id;
 	}
 	public String getName() {
 		return name;
@@ -84,7 +84,7 @@ public class User implements Serializable {
 	}
 	@Override
 	public String toString() {
-		return "Room [id=" + idUser + ", name=" + name + ", password=" + password + ", cpf=" + cpf + ", nick=" + nick
+		return "Room [id=" + id + ", name=" + name + ", password=" + password + ", cpf=" + cpf + ", nick=" + nick
 				+ ", email=" + email + "]";
 	}
 }
