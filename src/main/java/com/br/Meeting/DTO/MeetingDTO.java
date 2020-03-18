@@ -1,7 +1,6 @@
 package com.br.Meeting.DTO;
 
 import java.io.Serializable;
-import java.util.Date;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -10,35 +9,39 @@ import javax.validation.constraints.NotEmpty;
 
 public class MeetingDTO implements Serializable {
 	private final static long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String date;
-	
+
 	@NotEmpty(message = "mandatory start time field")
-	private String  startTime;
-	
+	private String startTime;
+
 	@NotEmpty(message = "mandatory end time field")
 	private String endTime;
-	
+
 	@NotEmpty(message = "mandatory title field")
 	private String title;
-	
+
 	@NotEmpty(message = "mandatory host field")
 	private String host;
 
 	private Status status;
+	private short room;
 
-	public MeetingDTO(Long id, Date date, @NotEmpty(message = "mandatory start time field") String startTime,
+	public MeetingDTO(Long id, String date, @NotEmpty(message = "mandatory start time field") String startTime,
 			@NotEmpty(message = "mandatory end time field") String endTime,
 			@NotEmpty(message = "mandatory title field") String title,
-			@NotEmpty(message = "mandatory host field") String host) {
+			@NotEmpty(message = "mandatory host field") String host, Status status, short room) {
 		this.id = id;
 		this.startTime = startTime;
 		this.endTime = endTime;
 		this.title = title;
 		this.host = host;
+		this.date = date;
+		this.status = status;
+		this.room = room;
 	}
 
 	public MeetingDTO() {
@@ -67,7 +70,7 @@ public class MeetingDTO implements Serializable {
 	public void setStartTime(String startTime) {
 		this.startTime = startTime;
 	}
-	
+
 	public String getEndTime() {
 		return endTime;
 	}
@@ -79,10 +82,11 @@ public class MeetingDTO implements Serializable {
 	public Status getStatus() {
 		return status;
 	}
-	
+
 	public void setStatus(Status status) {
 		this.status = status;
 	}
+
 	public String getTitle() {
 		return title;
 	}
@@ -102,9 +106,15 @@ public class MeetingDTO implements Serializable {
 	@Override
 	public String toString() {
 		return "MeetingDTO [id=" + id + ", date=" + date + ", startTime=" + startTime + ", endTime=" + endTime
-				+ ", title=" + title + ", host=" + host + "]";
+				+ ", title=" + title + ", host=" + host + ", room=" + room + "]";
 	}
-	
-	
+
+	public short getRoom() {
+		return room;
+	}
+
+	public void setRoom(short room) {
+		this.room = room;
+	}
 
 }
