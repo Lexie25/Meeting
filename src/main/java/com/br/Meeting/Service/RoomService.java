@@ -66,9 +66,12 @@ public class RoomService {
 		return roomRepository.findById(id).get();
 	}
 
-	public RoomDto saveRoom(RoomDto roomDto) {
-		Room entity = convertToEntity(roomDto);
-		return convertToDTO(roomRepository.save(entity));
+	public Room saveRoom(RoomDto roomDto) throws Exception {
+		Optional<RoomDto> optional = roomRepository.findByFloorAndNumberRoom(roomDto.getFloor(), roomDto.getNumberRoom());
+		if(optional.isPresent()) {
+			throw new Exception("Room already registered.");
+		}
+		return roomRepository.save(convertToEntity(roomDto));
 	}
 
 	public void updateRoom(long id, Room room) {
