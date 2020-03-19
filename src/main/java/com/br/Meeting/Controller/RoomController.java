@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.br.Meeting.DTO.RoomDto;
@@ -22,7 +23,7 @@ import com.br.Meeting.model.Room;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
-@Api(value="Api rest room")
+@Api(value = "Api rest room")
 @RestController
 @RequestMapping("room")
 public class RoomController {
@@ -30,61 +31,72 @@ public class RoomController {
 	@Autowired
 	private RoomService roomService;
 
-	@ApiOperation(value="get a room by Id")
-	@CrossOrigin(origins = "", allowedHeaders = "", methods = {RequestMethod.DELETE,RequestMethod.GET, RequestMethod.OPTIONS, RequestMethod.POST})
+	@ApiOperation(value = "get a room by Id")
+	@CrossOrigin(origins = "", allowedHeaders = "", methods = { RequestMethod.DELETE, RequestMethod.GET,
+			RequestMethod.OPTIONS, RequestMethod.POST })
 	@GetMapping("/{id}")
 	public ResponseEntity<?> getRoom(@PathVariable long id) {
 		try {
 			Room room = roomService.getRoomById(id);
 			return ResponseEntity.ok(room);
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		}
 
 	}
-	
 
-	@ApiOperation(value="take all rooms")
-	@CrossOrigin(origins = "", allowedHeaders = "", methods = {RequestMethod.DELETE,RequestMethod.GET, RequestMethod.OPTIONS, RequestMethod.POST})
+	@ApiOperation(value = "take all rooms")
+	@CrossOrigin(origins = "", allowedHeaders = "", methods = { RequestMethod.DELETE, RequestMethod.GET,
+			RequestMethod.OPTIONS, RequestMethod.POST })
 	@GetMapping
 	public ResponseEntity<?> findAllRoom() {
 		try {
 			Iterable<Room> room = roomService.getRoom();
 			return ResponseEntity.ok(room);
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		}
-	}	
+	}
 
-	@ApiOperation(value="add a room")
-	@CrossOrigin(origins = "", allowedHeaders = "", methods = {RequestMethod.DELETE,RequestMethod.GET, RequestMethod.OPTIONS, RequestMethod.POST})
+	@ApiOperation(value = "add a room")
+	@CrossOrigin(origins = "", allowedHeaders = "", methods = { RequestMethod.DELETE, RequestMethod.GET,
+			RequestMethod.OPTIONS, RequestMethod.POST })
 	@PostMapping
 	public ResponseEntity<?> Save(@Valid @RequestBody RoomDto room) {
 		try {
-			roomService.saveRoom(room);
-			return ResponseEntity.status(HttpStatus.CREATED).body(room);	
-		}
-		catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.CREATED).body(roomService.saveRoom(room));
+		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 		}
 	}
-	@ApiOperation(value="update a room")
-	@CrossOrigin(origins = "", allowedHeaders = "", methods = {RequestMethod.DELETE,RequestMethod.GET, RequestMethod.OPTIONS, RequestMethod.POST})
+
+	@ApiOperation(value = "update a room")
+	@CrossOrigin(origins = "", allowedHeaders = "", methods = { RequestMethod.DELETE, RequestMethod.GET,
+			RequestMethod.OPTIONS, RequestMethod.POST })
 	@PutMapping("/{id}")
-	public ResponseEntity<?> update(@PathVariable long id,
-			@Valid @RequestBody Room room) {
+	public ResponseEntity<?> update(@PathVariable long id, @Valid @RequestBody Room room) {
 		roomService.updateRoom(id, room);
 		return ResponseEntity.ok(room);
 	}
-	
-	@ApiOperation(value="delete a room")
-	@CrossOrigin(origins = "", allowedHeaders = "", methods = {RequestMethod.DELETE,RequestMethod.GET, RequestMethod.OPTIONS, RequestMethod.POST})
+
+	@ApiOperation(value = "delete a room")
+	@CrossOrigin(origins = "", allowedHeaders = "", methods = { RequestMethod.DELETE, RequestMethod.GET,
+			RequestMethod.OPTIONS, RequestMethod.POST })
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> delete(@PathVariable long id) {
 		roomService.deleteRoom(id);
 		return ResponseEntity.ok().build();
 	}
 
+	@ApiOperation(value = "take filter room")
+	@CrossOrigin(origins = "*")
+	@GetMapping("/filter")
+	public ResponseEntity<?> findMeetingFilter(@RequestParam(name = "date") String date,
+			@RequestParam(name = "room", required = false) String room) {
+		
+		if (date == null || date == "") {
+			// TODO Disparar exceção de data invalida
+		}
+		return ResponseEntity.status(HttpStatus.OK).body(roomService.getRoomAvaliable(date, room));
+	}
 }

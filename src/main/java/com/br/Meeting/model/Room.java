@@ -1,6 +1,7 @@
 package com.br.Meeting.model;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -8,6 +9,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 import com.br.Meeting.DTO.Status;
 
@@ -27,15 +29,19 @@ public class Room implements Serializable {
 
 	@Enumerated(EnumType.ORDINAL)
 	private Status status;
+	
+	@OneToMany(mappedBy = "room")
+	private List<Meeting> meetings;
 
 	public Room() {
 	}
 
-	public Room(Long idRoom, String description, short numberRoom, short floor) {
+	public Room(Long idRoom, String description, short numberRoom, short floor, Status status) {
 		this.idRoom = idRoom;
 		this.description = description;
 		this.numberRoom = numberRoom;
 		this.floor = floor;
+		this.status = status;
 	}
 
 	public Status getStatus() {
@@ -82,5 +88,13 @@ public class Room implements Serializable {
 	public String toString() {
 		return "Room [idRoom=" + idRoom + ", description=" + description + ", numberRoom=" + numberRoom + ", floor="
 				+ floor + "]";
+	}
+
+	public List<Meeting> getMeetings() {
+		return meetings;
+	}
+
+	public void setMeetings(List<Meeting> meetings) {
+		this.meetings = meetings;
 	}
 }

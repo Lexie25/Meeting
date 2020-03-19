@@ -6,5 +6,5 @@ import com.br.Meeting.model.Meeting;
 
 @Repository
 public interface MeetingRepository extends CrudRepository<Meeting, Long>{
-
+	
 }

@@ -8,6 +8,8 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 import com.br.Meeting.DTO.Status;
 
@@ -20,19 +22,29 @@ public class Meeting implements Serializable {
 
 	private Long idMeeting;
 	private String date;
-	private String startTime;
-	private String endTime;
+
+	@ManyToOne
+	@JoinColumn(name = "start_time_hour_id")
+	private Hour startTime;
+
+	@ManyToOne
+	@JoinColumn(name = "end_time_hour_id")
+	private Hour endTime;
 //	private String room;
 	private String title;
 	private String host;
-	
+
 	@Enumerated(EnumType.ORDINAL)
 	private Status status;
+
+	@ManyToOne
+	@JoinColumn(name = "room_id")
+	private Room room;
 
 	public Meeting() {
 	}
 
-	public Meeting(Long idMeeting, String date, String startTime, String endTime, String title, String host) {
+	public Meeting(Long idMeeting, String date, Hour startTime, Hour endTime, String title, String host) {
 		this.idMeeting = idMeeting;
 		this.date = date;
 		this.startTime = startTime;
@@ -65,19 +77,19 @@ public class Meeting implements Serializable {
 		this.date = date;
 	}
 
-	public String getStartTime() {
+	public Hour getStartTime() {
 		return startTime;
 	}
 
-	public void setStartTime(String startTime) {
+	public void setStartTime(Hour startTime) {
 		this.startTime = startTime;
 	}
 
-	public String getEndTime() {
+	public Hour getEndTime() {
 		return endTime;
 	}
 
-	public void setEndTime(String endTime) {
+	public void setEndTime(Hour endTime) {
 		this.endTime = endTime;
 	}
 
@@ -101,6 +113,14 @@ public class Meeting implements Serializable {
 	public String toString() {
 		return "Meeting [idMeeting=" + idMeeting + ", date=" + date + ", startTime=" + startTime + ", endTime="
 				+ endTime + ", title=" + title + ", host=" + host + "]";
+	}
+
+	public Room getRoom() {
+		return room;
+	}
+
+	public void setRoom(Room room) {
+		this.room = room;
 	}
 
 }

@@ -7,5 +7,7 @@ import com.br.Meeting.model.Room;
 
 @Repository
 public interface RoomRepository extends CrudRepository<Room, Long>{
-
+	
+	Room findByNumberRoom (short numberRoom);
+	
 }

@@ -44,13 +44,15 @@ public class MeetingController {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		}
 	}
+	
+	
 	@ApiOperation(value="take all meeting")
 	@CrossOrigin(origins = "", allowedHeaders = "", methods = {RequestMethod.DELETE,RequestMethod.GET, RequestMethod.OPTIONS, RequestMethod.POST})
 	@GetMapping
 	public ResponseEntity<?>  findAll () {
 		try {
-			Iterable<Meeting> meeting = meetingService.getMeeting();
-			return ResponseEntity.ok(meeting);
+			Iterable<MeetingDTO> meetings = meetingService.getMeeting();
+			return ResponseEntity.ok(meetings);
 		}
 		catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -62,8 +64,7 @@ public class MeetingController {
 	@PostMapping
 	public ResponseEntity<?> saveMeeting(@Valid @RequestBody MeetingDTO meetingDto) {
 		try {
-			meetingService.saveMeeting(meetingDto);
-			return ResponseEntity.status(HttpStatus.CREATED).body(meetingDto);	
+			return ResponseEntity.status(HttpStatus.CREATED).body(meetingService.saveMeeting(meetingDto));	
 		}
 		catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
