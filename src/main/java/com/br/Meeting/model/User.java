@@ -13,7 +13,7 @@ import javax.validation.constraints.NotBlank;
 import org.hibernate.validator.constraints.br.CPF;
 
 @Entity
-@Table(name = "Login")
+@Table
 public class User implements Serializable {
 	private final static long serialVersionUID = 1L;
 	

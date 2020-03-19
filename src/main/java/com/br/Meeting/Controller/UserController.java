@@ -74,7 +74,6 @@ public class UserController {
 	@CrossOrigin(origins = "", allowedHeaders = "", methods = { RequestMethod.DELETE, RequestMethod.GET,
 			RequestMethod.OPTIONS, RequestMethod.POST })
 	@PutMapping("/{id}")
-
 	public ResponseEntity<?> updateUser(@Valid @RequestBody UserDTO userDto) throws Exception {
 
 		UserDTO personUpdate = userService.updateUser(userDto);
