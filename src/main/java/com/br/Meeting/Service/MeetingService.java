@@ -28,6 +28,7 @@ public class MeetingService {
 	}
 
 	public void saveMeeting(@Valid MeetingDTO meetingDto) {
+		
 		Meeting entity = convertEntity(meetingDto);
 		meetingRepository.save(entity);
 	}
@@ -41,6 +42,7 @@ public class MeetingService {
 		meeting.setStatus(meetingDto.getStatus());
 		return meeting;
 	}
+	
 
 	public void updateMeeting(long id, Meeting meeting) {
 		Optional<Meeting> optionalMensagem = meetingRepository.findById(id);

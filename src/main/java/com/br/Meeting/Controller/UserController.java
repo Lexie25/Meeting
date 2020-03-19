@@ -18,13 +18,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.br.Meeting.DTO.UserDTO;
 import com.br.Meeting.Service.UserService;
-import com.br.Meeting.model.Meeting;
 import com.br.Meeting.model.User;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
-@Api(value="Api rest ")
+@Api(value = "Api rest ")
 @RestController
 @RequestMapping("user")
 public class UserController {
@@ -32,64 +31,67 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 
-	@ApiOperation(value="take all user")
-	@CrossOrigin(origins = "", allowedHeaders = "", methods = {RequestMethod.DELETE,RequestMethod.GET, RequestMethod.OPTIONS, RequestMethod.POST})
+	@ApiOperation(value = "take all user")
+	@CrossOrigin(origins = "", allowedHeaders = "", methods = { RequestMethod.DELETE, RequestMethod.GET,
+			RequestMethod.OPTIONS, RequestMethod.POST })
 	@GetMapping
-	public ResponseEntity<?>  findAll () {
+	public ResponseEntity<?> findAll() {
 		try {
 			Iterable<User> user = userService.getUser();
 			return ResponseEntity.ok(user);
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		}
 	}
-	@ApiOperation(value="get a user by Id")
-	@CrossOrigin(origins = "", allowedHeaders = "", methods = {RequestMethod.DELETE,RequestMethod.GET, RequestMethod.OPTIONS, RequestMethod.POST})
+
+	@ApiOperation(value = "get a user by Id")
+	@CrossOrigin(origins = "", allowedHeaders = "", methods = { RequestMethod.DELETE, RequestMethod.GET,
+			RequestMethod.OPTIONS, RequestMethod.POST })
 	@GetMapping("/{id}")
 	public ResponseEntity<?> getUserById(@PathVariable long id) {
 		try {
-			User user = userService.getUserById(id);
+			UserDTO user = userService.getUserById(id);
 			return ResponseEntity.ok(user);
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		}
 	}
-	
-	@ApiOperation(value="add a user")
-	@CrossOrigin(origins = "", allowedHeaders = "", methods = {RequestMethod.DELETE,RequestMethod.GET, RequestMethod.OPTIONS, RequestMethod.POST})
+
+	@ApiOperation(value = "add a user")
+	@CrossOrigin(origins = "", allowedHeaders = "", methods = { RequestMethod.DELETE, RequestMethod.GET,
+			RequestMethod.OPTIONS, RequestMethod.POST })
 	@PostMapping
 	public ResponseEntity<?> saveUser(@RequestBody UserDTO user) {
 		try {
 			userService.saveUser(user);
-			return ResponseEntity.status(HttpStatus.CREATED).body(user);	
-		}
-		catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.CREATED).body(user);
+		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 		}
 	}
-	@ApiOperation(value="update a user")
-	@CrossOrigin(origins = "", allowedHeaders = "", methods = {RequestMethod.DELETE,RequestMethod.GET, RequestMethod.OPTIONS, RequestMethod.POST})
+
+	@ApiOperation(value = "update a user")
+	@CrossOrigin(origins = "", allowedHeaders = "", methods = { RequestMethod.DELETE, RequestMethod.GET,
+			RequestMethod.OPTIONS, RequestMethod.POST })
 	@PutMapping("/{id}")
-	public ResponseEntity<?> updateUser(
-			@Valid @RequestBody User user) {
-		
-	User personUpdate = userService.updateUser( user);
-	if (personUpdate == null) {
-		return new ResponseEntity<String>("Usuario não encontrado", HttpStatus.OK);
-	}
-	return new ResponseEntity<String>("Atualizada", HttpStatus.OK);
+
+	public ResponseEntity<?> updateUser(@Valid @RequestBody UserDTO userDto) throws Exception {
+
+		UserDTO personUpdate = userService.updateUser(userDto);
+		if (personUpdate == null) {
+			return new ResponseEntity<String>("Usuario não encontrado", HttpStatus.OK);
+		}
+		return new ResponseEntity<String>("Atualizada", HttpStatus.OK);
 
 	}
-	
-	@ApiOperation(value="delete a user")
-	@CrossOrigin(origins = "", allowedHeaders = "", methods = {RequestMethod.DELETE,RequestMethod.GET, RequestMethod.OPTIONS, RequestMethod.POST})
+
+	@ApiOperation(value = "delete a user")
+	@CrossOrigin(origins = "", allowedHeaders = "", methods = { RequestMethod.DELETE, RequestMethod.GET,
+			RequestMethod.OPTIONS, RequestMethod.POST })
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> deleteuser(@PathVariable long id) {
 		userService.deleteUser(id);
 		return ResponseEntity.ok().build();
 	}
-
 
 }

@@ -2,7 +2,6 @@ package com.br.Meeting.Service;
 
 import java.util.Optional;
 
-import javax.persistence.Id;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,17 +22,28 @@ public class UserService {
 	public Iterable<User> getUser() {
 		return userRepository.findAll();
 	}
-	
-	public User getUserById(long id) {
-		return userRepository.findById(id).get();	
+
+	public UserDTO getUserById(long id) {
+		Optional<User> opt =userRepository.findById(id);	
+		if (opt.isPresent()) {
+			return convertToDto(opt.get());
+		}
+		return null;
+		 
 	}
-	
-	public void saveUser( @Valid UserDTO userDto) {
-		User entity = convertToEntity(userDto);
-		userRepository.save(entity);
+
+	public UserDTO saveUser  ( @Valid UserDTO userDto) throws Exception {
+		
+		Optional<User> user = userRepository.findByCpfAndEmail( userDto.getCpf(),userDto.getEmail());
+		if(user.isPresent()) {
+			throw new Exception(" User already registered.");
+		}
+
+		return  convertToDto(userRepository.save(convertToEntity(userDto)));
+
 	}
-	
-	
+
+
 	public User convertToEntity (UserDTO userDto) {
 		User user = new User();
 		user.setName(userDto.getName());
@@ -41,23 +51,34 @@ public class UserService {
 		user.setCpf(userDto.getCpf());
 		user.setPassword(userDto.getPassword());
 		user.setEmail(userDto.getEmail());
-		
+
 		return user;
 	}
-	public User updateUser( User user) {
-		Optional<User> optionalUser = userRepository.findById(user.getId());
-		
-		if (optionalUser.isPresent()) {
-			User userEncontrada = optionalUser.get();
-			user.setName(user.getName());
-			userRepository.save(user);
-		
-			return user;
-		}
-		return null;
-		
+	public UserDTO convertToDto (User user) {
+		UserDTO userDto = new UserDTO();
+		userDto.setName(user.getName());
+		userDto.setNick(user.getNick());
+		userDto.setCpf(user.getCpf());
+		userDto.setPassword(user.getPassword());
+		userDto.setEmail(user.getEmail());
+
+		return userDto;
 	}
 	
+
+	public UserDTO updateUser( UserDTO userDto) throws Exception {
+		Optional<User> optionalUser = userRepository.findByCpfAndEmail(userDto.getCpf(), userDto.getEmail());
+
+		if (optionalUser.isPresent() ) {
+			
+			User userEncontrada = convertToEntity(userDto);	
+			return convertToDto(userRepository.save(userEncontrada));
+
+		}
+		throw  new Exception("User not found");
+
+	}
+
 	public void deleteUser(long id) {
 		try {
 			userRepository.deleteById(id);	
@@ -66,5 +87,6 @@ public class UserService {
 			throw new MessageNotFound("Not found");
 		}
 	}
-	
+
 }
+
