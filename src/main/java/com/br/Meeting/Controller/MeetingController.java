@@ -51,8 +51,7 @@ public class MeetingController {
 	@GetMapping
 	public ResponseEntity<?>  findAll () {
 		try {
-			Iterable<MeetingDTO> meetings = meetingService.getMeeting();
-			return ResponseEntity.ok(meetings);
+			return ResponseEntity.ok(meetingService.getMeeting());
 		}
 		catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();

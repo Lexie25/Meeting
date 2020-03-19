@@ -10,8 +10,6 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import javax.annotation.PostConstruct;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
@@ -34,11 +32,6 @@ public class RoomService {
 	@Autowired
 	private HourRepository hourRepository;
 
-	@PostConstruct
-	public void init() {
-		roomRepository.save(new Room(0L, "Teste", (short) 13, (short) 13, Status.AVAILABLE));
-	}
-
 	public List<Object> getRoomAvaliable(String date, String roomNumber) {
 		List<Object> avaliableRooms = new ArrayList<Object>();
 		if (roomNumber != null && roomNumber != "") {
@@ -48,7 +41,7 @@ public class RoomService {
 			}
 		}
 		else {
-			Iterable<Room> rooms = getRoom();
+			Iterable<Room> rooms = getRooms();
 			for (Room room : rooms) {
 				avaliableRooms.add(generateMapRoom(room, date));
 			}
@@ -58,8 +51,13 @@ public class RoomService {
 
 	}
 
-	public Iterable<Room> getRoom() {
+	private Iterable<Room> getRooms () {
 		return roomRepository.findAll();
+	}
+	
+	public Iterable<RoomDto> getRoom() {
+		List<Room> rooms = (List<Room>) getRooms();
+		return rooms.stream().map(this::convertToDTO).collect(Collectors.toList());
 	}
 
 	public Room getRoomById(long id) {

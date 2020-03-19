@@ -15,6 +15,15 @@ public class DateOperations {
 		return formatter.format(date);
 	}
 	
+	public static final boolean validDate (String date) {
+		try  {
+			new SimpleDateFormat("dd/mm/yyyyy").parse(date);
+			return true;
+		} catch (ParseException e) {
+			return false;
+		}
+ 	}
+	
 	private static final long ONE_MINUTE_IN_MILLIS = 60000;
 	public static final List<String> generateTimes (String startTime, String endTime, int minutesBetween) { 
 		
