@@ -1,6 +1,8 @@
 package com.br.Meeting.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -20,6 +22,7 @@ import com.br.Meeting.model.Hour;
 import com.br.Meeting.model.Meeting;
 import com.br.Meeting.model.Room;
 import com.br.Meeting.util.DateOperations;
+import com.br.Meeting.util.MapOperations;
 
 @Service
 public class MeetingService {
@@ -44,9 +47,16 @@ public class MeetingService {
 		}
 	}
 	
-	public List<MeetingDTO> getMeeting() {
+	public List<Object> getMeeting() {
 		List<Meeting> meetings = (List<Meeting>) meetingRepository.findAll();	
-		return meetings.stream().map(this::convertToDTO).collect(Collectors.toList());
+		List<Object> meetingsDescription = new ArrayList<Object>();
+		
+		for (Meeting meeting : meetings) {
+			Map<String, Object> mapTemp = MapOperations.convertToMap(convertToDTO(meeting));
+			mapTemp.put("roomDescription", meeting.getRoom().getDescription());
+			meetingsDescription.add(mapTemp);
+		}
+		return meetingsDescription; 
 	}
 	public Meeting getMeetingById(long id) {
 		return meetingRepository.findById(id).get();

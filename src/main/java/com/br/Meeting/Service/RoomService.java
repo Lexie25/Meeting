@@ -34,11 +34,6 @@ public class RoomService {
 	@Autowired
 	private HourRepository hourRepository;
 
-	@PostConstruct
-	public void init() {
-		roomRepository.save(new Room(0L, "Teste", (short) 13, (short) 13, Status.AVAILABLE));
-	}
-
 	public List<Object> getRoomAvaliable(String date, String roomNumber) {
 		List<Object> avaliableRooms = new ArrayList<Object>();
 		if (roomNumber != null && roomNumber != "") {
