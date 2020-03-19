@@ -14,7 +14,7 @@ import org.hibernate.validator.constraints.br.CPF;
 
 @Entity
 @Table
-public class User implements Serializable {
+public class UserMix implements Serializable {
 	private final static long serialVersionUID = 1L;
 	
 	@Id
@@ -36,9 +36,9 @@ public class User implements Serializable {
 	@Email
 	private String email;
 	
-	public User() {
+	public UserMix() {
 	}
-	public User(Long id, String name, String password, String cpf, String nick, String email) {
+	public UserMix(Long id, String name, String password, String cpf, String nick, String email) {
 		this.id = id;
 		this.name = name;
 		this.password = password;

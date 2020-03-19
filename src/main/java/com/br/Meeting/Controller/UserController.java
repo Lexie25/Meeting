@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.br.Meeting.DTO.UserDTO;
 import com.br.Meeting.Service.UserService;
-import com.br.Meeting.model.User;
+import com.br.Meeting.model.UserMix;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -37,7 +37,7 @@ public class UserController {
 	@GetMapping
 	public ResponseEntity<?> findAll() {
 		try {
-			Iterable<User> user = userService.getUser();
+			Iterable<UserMix> user = userService.getUser();
 			return ResponseEntity.ok(user);
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();

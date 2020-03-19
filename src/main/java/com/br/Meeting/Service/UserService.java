@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import com.br.Meeting.DTO.UserDTO;
 import com.br.Meeting.Repositories.UserRepository;
 import com.br.Meeting.exceptions.MessageNotFound;
-import com.br.Meeting.model.User;
+import com.br.Meeting.model.UserMix;
 
 @Service
 public class UserService {
@@ -19,12 +19,12 @@ public class UserService {
 	@Autowired
 	private UserRepository userRepository;
 
-	public Iterable<User> getUser() {
+	public Iterable<UserMix> getUser() {
 		return userRepository.findAll();
 	}
 
 	public UserDTO getUserById(long id) {
-		Optional<User> opt =userRepository.findById(id);	
+		Optional<UserMix> opt =userRepository.findById(id);	
 		if (opt.isPresent()) {
 			return convertToDto(opt.get());
 		}
@@ -34,7 +34,7 @@ public class UserService {
 
 	public UserDTO saveUser  ( @Valid UserDTO userDto) throws Exception {
 		
-		Optional<User> user = userRepository.findByCpfAndEmail( userDto.getCpf(),userDto.getEmail());
+		Optional<UserMix> user = userRepository.findByCpfAndEmail( userDto.getCpf(),userDto.getEmail());
 		if(user.isPresent()) {
 			throw new Exception(" User already registered.");
 		}
@@ -44,8 +44,8 @@ public class UserService {
 	}
 
 
-	public User convertToEntity (UserDTO userDto) {
-		User user = new User();
+	public UserMix convertToEntity (UserDTO userDto) {
+		UserMix user = new UserMix();
 		user.setName(userDto.getName());
 		user.setNick(userDto.getNick());
 		user.setCpf(userDto.getCpf());
@@ -54,7 +54,7 @@ public class UserService {
 
 		return user;
 	}
-	public UserDTO convertToDto (User user) {
+	public UserDTO convertToDto (UserMix user) {
 		UserDTO userDto = new UserDTO();
 		userDto.setName(user.getName());
 		userDto.setNick(user.getNick());
@@ -67,11 +67,11 @@ public class UserService {
 	
 
 	public UserDTO updateUser( UserDTO userDto) throws Exception {
-		Optional<User> optionalUser = userRepository.findByCpfAndEmail(userDto.getCpf(), userDto.getEmail());
+		Optional<UserMix> optionalUser = userRepository.findByCpfAndEmail(userDto.getCpf(), userDto.getEmail());
 
 		if (optionalUser.isPresent() ) {
 			
-			User userEncontrada = convertToEntity(userDto);	
+			UserMix userEncontrada = convertToEntity(userDto);	
 			return convertToDto(userRepository.save(userEncontrada));
 
 		}
