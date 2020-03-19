@@ -1,8 +1,9 @@
 package com.br.Meeting.config;
 
-import org.springframework.context.annotation.Configuration;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
+import java.util.ArrayList;
+
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -11,10 +12,9 @@ import springfox.documentation.service.Contact;
 import springfox.documentation.service.VendorExtension;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
-import static springfox.documentation.builders.PathSelectors.regex;
-import java.util.ArrayList;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
-@Configuration
+@Configuration	
 @EnableSwagger2
 public class ConfigSwageer {
 	
