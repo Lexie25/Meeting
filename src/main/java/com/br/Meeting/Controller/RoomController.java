@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.br.Meeting.DTO.RoomDto;
 import com.br.Meeting.Service.RoomService;
 import com.br.Meeting.model.Room;
+import com.br.Meeting.util.DateOperations;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -51,8 +52,7 @@ public class RoomController {
 	@GetMapping
 	public ResponseEntity<?> findAllRoom() {
 		try {
-			Iterable<Room> room = roomService.getRoom();
-			return ResponseEntity.ok(room);
+			return ResponseEntity.ok(roomService.getRoom());
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		}
@@ -93,10 +93,11 @@ public class RoomController {
 	@GetMapping("/filter")
 	public ResponseEntity<?> findMeetingFilter(@RequestParam(name = "date") String date,
 			@RequestParam(name = "room", required = false) String room) {
-		
-		if (date == null || date == "") {
-			// TODO Disparar exceção de data invalida
+
+		if (date == null || date == "" || (date != null && (date.length() != 10 || !DateOperations.validDate(date)))) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid date");
 		}
+
 		return ResponseEntity.status(HttpStatus.OK).body(roomService.getRoomAvaliable(date, room));
 	}
 }

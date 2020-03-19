@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 import javax.validation.Valid;
@@ -14,6 +13,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.br.Meeting.DTO.MeetingDTO;
+import com.br.Meeting.DTO.Status;
 import com.br.Meeting.Repositories.HourRepository;
 import com.br.Meeting.Repositories.MeetingRepository;
 import com.br.Meeting.Repositories.RoomRepository;
@@ -35,15 +35,20 @@ public class MeetingService {
 	
 	@Autowired
 	private HourRepository hourRepository;
-
 	
 	//TODO Remover ao subir para produção - inserir esses valores no banco manualmente
 	@PostConstruct
 	public void init () {
-		hourRepository.deleteAll();
-		List<String> times = DateOperations.generateTimes("00:00", "23:30", 30);
-		for (int i = 0; i < times.size(); i++) {
-			hourRepository.save(new Hour((long) (i + 1), times.get(i)));
+		try {
+			hourRepository.deleteAll();
+			List<String> times = DateOperations.generateTimes("00:00", "23:30", 30);
+			for (int i = 0; i < times.size(); i++) {
+				hourRepository.save(new Hour((long) (i + 1), times.get(i)));
+			}
+			
+			roomRepository.save(new Room((long) 0, "Teste", (short)0, (short)0, Status.AVAILABLE));
+		} catch(Exception e) {
+			e.printStackTrace();
 		}
 	}
 	
@@ -69,6 +74,7 @@ public class MeetingService {
 			throw new MessageNotFound("Room not found");
 		}
 		entity.setRoom(room);
+		System.out.println(entity);
 		
 		//TODO Validações : Validar se os campos foram preenchidos
 		//TODO Validações : Validar se o horário informado é possível criar
