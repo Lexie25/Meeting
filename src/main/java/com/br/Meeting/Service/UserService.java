@@ -23,17 +23,18 @@ public class UserService {
 		return userRepository.findAll();
 	}
 
-	public UserDTO getUserById(long id) {
+	public UserDTO getUserById(long id) throws Exception {
 		Optional<UserMix> opt =userRepository.findById(id);	
 		if (opt.isPresent()) {
 			return convertToDto(opt.get());
 		}
-		return null;
-		 
-	}
+		else {
+			throw  new Exception("User not found");
 
+		}
+	}
 	public UserDTO saveUser  ( @Valid UserDTO userDto) throws Exception {
-		
+
 		Optional<UserMix> user = userRepository.findByCpfAndEmail( userDto.getCpf(),userDto.getEmail());
 		if(user.isPresent()) {
 			throw new Exception(" User already registered.");
@@ -64,13 +65,13 @@ public class UserService {
 
 		return userDto;
 	}
-	
+
 
 	public UserDTO updateUser( UserDTO userDto) throws Exception {
 		Optional<UserMix> optionalUser = userRepository.findByCpfAndEmail(userDto.getCpf(), userDto.getEmail());
 
 		if (optionalUser.isPresent() ) {
-			
+
 			UserMix userEncontrada = convertToEntity(userDto);	
 			return convertToDto(userRepository.save(userEncontrada));
 
