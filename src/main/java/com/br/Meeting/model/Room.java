@@ -28,7 +28,7 @@ public class Room implements Serializable {
 	private short floor;
 
 	@Enumerated(EnumType.ORDINAL)
-	private Status status;
+	private Status status = Status.AVAILABLE;
 	
 	@OneToMany(mappedBy = "room")
 	private List<Meeting> meetings;
