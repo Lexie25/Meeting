@@ -1,6 +1,7 @@
 package com.br.Meeting.Service;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -25,6 +26,7 @@ import com.br.Meeting.model.Meeting;
 import com.br.Meeting.model.Room;
 import com.br.Meeting.util.DateOperations;
 import com.br.Meeting.util.MapOperations;
+import com.br.Meeting.util.StringOperations;
 
 @Service
 public class MeetingService {
@@ -55,7 +57,18 @@ public class MeetingService {
 	}
 	
 	public List<Object> getMeeting() {
-		List<Meeting> meetings = (List<Meeting>) meetingRepository.findAll();	
+		List<Meeting> meetings = (List<Meeting>) meetingRepository.findAll();
+		meetings.sort(new Comparator<Meeting>() {
+
+			@Override
+			public int compare(Meeting o1, Meeting o2) {
+				int valueO1 = Integer.parseInt(StringOperations.invertString(o1.getDate()).replace("/", ""));
+				int valueO2 = Integer.parseInt(StringOperations.invertString(o2.getDate()).replace("/", ""));
+				
+				return (valueO1 < valueO2 ? -1 : valueO1 > valueO2 ? 1 : 0);
+			}
+			
+		});
 		List<Object> meetingsDescription = new ArrayList<Object>();
 		
 		for (Meeting meeting : meetings) {
