@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.br.Meeting.DTO.MeetingDTO;
 import com.br.Meeting.Service.MeetingService;
+import com.br.Meeting.exceptions.ApiError;
+import com.br.Meeting.exceptions.ApiErrorRequest;
 import com.br.Meeting.model.Meeting;
 
 import io.swagger.annotations.Api;
@@ -65,8 +67,9 @@ public class MeetingController {
 		try {
 			return ResponseEntity.status(HttpStatus.CREATED).body(meetingService.saveMeeting(meetingDto));	
 		}
-		catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+		catch (ApiErrorRequest e) {
+			ApiError apiError = new ApiError(e.getMessage(), e.getStatus());
+			return ResponseEntity.status(e.getStatus()).body(apiError);
 		}
 	}
 	

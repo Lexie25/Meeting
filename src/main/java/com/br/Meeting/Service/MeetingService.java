@@ -70,13 +70,13 @@ public class MeetingService {
 	}
 
 	public MeetingDTO saveMeeting(@Valid MeetingDTO meetingDto) {
+		
 		Meeting entity = convertEntity(meetingDto);
 		Room room = roomRepository.findByNumberRoom(meetingDto.getRoom());
 		if(room == null) {
-			throw new ApiErrorRequest("Room not found", HttpStatus.ACCEPTED);
+			throw new ApiErrorRequest("Room not found", HttpStatus.BAD_REQUEST);
 		}
 		entity.setRoom(room);
-		System.out.println(entity);
 		
 		//TODO Validações : Validar se os campos foram preenchidos
 		//TODO Validações : Validar se o horário informado é possível criar
@@ -111,12 +111,12 @@ public class MeetingService {
 		
 		Hour endTime = hourRepository.findByHour(meetingDto.getEndTime());
 		if(endTime == null) {
-			throw new ApiErrorRequest("End time not found", HttpStatus.ACCEPTED);
+			throw new ApiErrorRequest("End time not found", HttpStatus.BAD_REQUEST);	
 		}
 		
 		Hour startTime = hourRepository.findByHour(meetingDto.getStartTime());
 		if(startTime == null) {
-			throw new ApiErrorRequest("Start time not found", HttpStatus.ACCEPTED);
+			throw new ApiErrorRequest("Start time not found", HttpStatus.BAD_REQUEST);
 		}
 		meeting.setEndTime(endTime);
 		meeting.setStartTime(startTime);
