@@ -1,5 +1,6 @@
 package com.br.Meeting.Service;
 
+import java.util.Map;
 import java.util.Optional;
 
 import javax.validation.Valid;
@@ -12,6 +13,7 @@ import com.br.Meeting.DTO.UserDTO;
 import com.br.Meeting.Repositories.UserRepository;
 import com.br.Meeting.exceptions.MessageNotFound;
 import com.br.Meeting.model.UserMix;
+import com.br.Meeting.util.MapOperations;
 
 @Service
 public class UserService {
@@ -44,6 +46,16 @@ public class UserService {
 
 	}
 
+	public Map<String, Object> loginUser(String email, String password) throws Exception{
+		Optional<UserMix> optLogin = userRepository.findByEmailAndPassword(email, password);
+		if(optLogin.isPresent()) {
+			Map<String, Object> login = MapOperations.convertToMap(optLogin.get());
+			login.remove("password");
+			return login;
+		}
+		 throw new Exception(" Invalid login"); 
+		
+	}
 
 	public UserMix convertToEntity (UserDTO userDto) {
 		UserMix user = new UserMix();

@@ -84,6 +84,18 @@ public class UserController {
 
 	}
 
+	@ApiOperation(value = "login a user")
+	@CrossOrigin(origins = "", allowedHeaders = "", methods = { RequestMethod.DELETE, RequestMethod.GET,
+			RequestMethod.OPTIONS, RequestMethod.POST })
+	@PostMapping("/login")
+	public ResponseEntity<?> loginUser(@Valid @RequestBody UserDTO userDto) throws Exception {
+		try {
+			return (ResponseEntity.status(HttpStatus.OK).body(userService.loginUser(userDto.getEmail(),userDto.getPassword())));
+		}catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
+		}
+	}
+
 	@ApiOperation(value = "delete a user")
 	@CrossOrigin(origins = "", allowedHeaders = "", methods = { RequestMethod.DELETE, RequestMethod.GET,
 			RequestMethod.OPTIONS, RequestMethod.POST })
