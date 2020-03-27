@@ -77,9 +77,8 @@ public class MeetingController {
 	@CrossOrigin(origins = "", allowedHeaders = "", methods = {RequestMethod.DELETE,RequestMethod.GET, RequestMethod.OPTIONS, RequestMethod.POST})
 	@PutMapping("/{id}")
 	public ResponseEntity<?> updateMeeting(@PathVariable long id,
-												@Valid @RequestBody Meeting meeting) {
-		meetingService.updateMeeting(id, meeting);
-		return ResponseEntity.ok(meeting);
+												@Valid @RequestBody MeetingDTO meetingDto) {
+		return ResponseEntity.ok(meetingService.updateMeeting(id, meetingDto));
 	}
 	
 	@ApiOperation(value="delete a meeting")

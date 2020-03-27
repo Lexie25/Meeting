@@ -90,7 +90,7 @@ public class RoomService {
 		}
 	}
 
-	private Map<String, Object> generateMapRoom (Room room, String date) {
+	public Map<String, Object> generateMapRoom (Room room, String date) {
 		List<Meeting> meetings = room.getMeetings().stream()
 				.filter(meeting -> meeting.getStatus() == Status.AVAILABLE)
 				.collect(Collectors.toList());
