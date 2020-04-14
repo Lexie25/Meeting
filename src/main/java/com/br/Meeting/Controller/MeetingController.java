@@ -1,12 +1,18 @@
 package com.br.Meeting.Controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,6 +27,7 @@ import com.br.Meeting.Service.MeetingService;
 import com.br.Meeting.exceptions.ApiError;
 import com.br.Meeting.exceptions.ApiErrorRequest;
 import com.br.Meeting.model.Meeting;
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -88,4 +95,27 @@ public class MeetingController {
 		meetingService.deleteMeeting(id);
 		return ResponseEntity.ok().build();
 	}
+	
+	@ExceptionHandler(MethodArgumentNotValidException.class)
+	public Map<String, String> handleValidationExceptions(
+	  MethodArgumentNotValidException ex) {
+	    Map<String, String> errors = new HashMap<>();
+	    
+	    if (ex.getBindingResult().getAllErrors().size() > 0) {
+	    	
+	    	ObjectError error = ex.getBindingResult().getAllErrors().get(0);
+	        String errorMessage = error.getDefaultMessage();
+	        errors.put("error", errorMessage);
+	    }
+	    return errors;
+	}
+	
+	@ExceptionHandler(InvalidFormatException.class)
+	public Map<String, String> handleJsonSerializationExceptions (InvalidFormatException ex) {
+		String field = ex.getPath().get(0).getFieldName();
+		Map<String, String> errors = new HashMap<>();
+		errors.put("error", "'" + ex.getValue() +"' is invalid for field " + field);
+		return errors;
+	}
+	
 }
